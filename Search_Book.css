@@ -1,0 +1,40 @@
+#Account_space{
+  float: right;
+}
+#Account_space .infs{
+  text-align: right;
+}
+
+#Login_Modal{
+  background-color: skyblue;
+  margin: 1px solid black;
+  width: 300px;
+  padding: 20px;
+  visibility: hidden;
+}
+
+#Login_Modal div{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+label{
+  text-align: left;
+  flex: 1;
+}
+
+input{
+  padding: 5px;
+}
+
+#btns{
+  float: right;
+}
+
+h1{
+  text-align: center;
+  color: blue;
+  position: absolute;
+  left: 600px;
+}

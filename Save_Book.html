@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Save_Book</title>d
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  </head>
+  <body>
+    <h1 id = Head_1>도서 정보 저장하기</h1>
+    <div id="div0">
+      <form class="Save" action="Save_Book.php" method="post" enctype="multipart/form-data">
+        도서 이름 <input type="text" name="Book_Name" id="Book_Name"><br>
+        <div id="div2">
+          저자 <input type="text" name="Author" class = "Author" id = "First_Author">
+          <button type="button" name="Add_Author" id = "Add_Author">저자 추가</button>
+          <button type="button" name="Remove_Author" id = "Remove_Author">저자 삭제</button><br>
+        </div>
+        출판년월 <input type="date" name="date" id = "date"><br>
+        출판사 <input type="text" name="publisher" id = "publisher"><br>
+        미리보기 화일 <input type="file" name="file" id = "file"><br>
+        <input type="submit" name="submit" id="submit" value="저장하기">
+      </form>
+    </div>
+    <script src = "Save_Book.js"></script>
+  </body>
+</html>
