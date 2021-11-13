@@ -1,7 +1,4 @@
 #Account_space{
-  float: right;
-}
-#Account_space .infs{
   text-align: right;
 }
 
@@ -37,4 +34,9 @@ h1{
   color: blue;
   position: absolute;
   left: 600px;
+}
+
+#BookName{
+  text-align: center;
+  width: 700px;
 }
