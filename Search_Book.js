@@ -1,5 +1,5 @@
 $(document).ready(function(){
-  $("#login_btn").on("click",function(){//로그인 버튼 클릭 시
+  $(document).on("click","#login_btn",function(){//로그인 버튼 클릭 시
     $("#Login_Modal").css("visibility","visible");//로그인 모달 띄우기
     $("#Login_Modal").css("display","inline-block");//로그인 모달 띄우기
   });
@@ -112,13 +112,13 @@ $(document).ready(function(){
 
         }else{
           let Arr = JSON.parse(data);
-          console.log(data.length);
           create_tr = document.createElement("tr");//tr 생성
           create_td = document.createElement("td");//td 생성
           for(let r = 0; r<(Arr.length/6); r++){//table 생성
             table.appendChild(create_tr);//tr을 개수에 맞게 생성
             for(let d=0; d<7; d++){//td를 생성하는 반복문
               create_td = document.createElement("td");
+              create_td.setAttribute("class","Book_info");
               create_tr.appendChild(create_td);//td생성
               if(d==0){//첫 번째
                 let checkbox = document.createElement("input");//체크박스 생성
@@ -131,12 +131,6 @@ $(document).ready(function(){
                 link.setAttribute("class","Show_file");
                 let link_Text = document.createTextNode("미리보기");
                 link.appendChild(link_Text);
-                link.addEventListener("click",function(){
-                  let val = $(this).val();
-                  let path = "/HW2/uploads/"+val;
-                  console.log(path);
-                  window.open(path,"미리보기","width=500,height=600");
-                });
                 create_td.appendChild(link);
               }else{//두 번째부터
                 let result = document.createTextNode(Arr[(d-1)]);
@@ -155,7 +149,62 @@ $(document).ready(function(){
     Reserve.appendChild(Reserve_btn);//버튼 출력하기
   });
 
-  $("#Reserve_btn").on("click",function(){//대출하기 버튼을 클릭했을 경우
+  $(document).on("click",".Show_file",function(){//미리보기 버튼을 클릭했을 경우
+    let val = $(this).val();//value 가져오기
+    let path = "/HW2/uploads/"+val;//경로 설정
+    window.open(path,"미리보기","width=500,height=600");//새 창에서 윈도우 띄우기
+  });
+
+  $(document).on("click","#Reserve_btn",function(){//대출하기 버튼을 클릭했을 경우
+    let is_logout = $("#logout_btn").text();//로그아웃 버튼이 있는지 확인
+    if(is_logout == ""){//없을 경우 로그인이 안 된 것이므로
+      alert("로그인 후 대출 가능합니다.");//경고창 출력
+    }else{//로그인은 된 상태일 경우
+      let check = document.getElementsByClassName("checkbox");//체크박스들의 정보 가져옴
+      let row = 0;//변수값을 0으로
+      let td = document.getElementsByClassName("Book_info");//각 테이블들의 정보를 가져옴
+      for(row; row<check.length; row++){//체크박스의 수만큼 검사
+        if(check[row].checked){//체크박스가 체크 된 경우에만
+          let is_keep = td[(row*6)+6].innerHTML;//대출 여부 저장
+          if(is_keep == "rented"){//해당 도서가 대출중인 경우
+            alert("대출 가능한 도서만 선택해주세요.");//경고창 출력
+          }else{
+            let day = new Date();//현재 시간을 변수에 저장
+            let today = day.getFullYear() + "-" + day.getMonth() + "-" + day.getDate();//연월일만 문자열로 저장
+            $.post(
+              "Reserve_Book.php",//Reserve_Book.php로 정보 전달
+              {
+                BookName: td[(row*6)+1].innerHTML,//책이름
+                ReserveDate: today,//오늘 연월일
+                UserName: document.getElementById("infs").childNodes[2];//로그인한 아이디전달
+              },
+            );
+            $.post(
+              "Fix_Book.php",//Fix_Book.php로 정보 전달
+              {
+                BookName: td[(row*6)+1].innerHTML,//책 이름 전달
+              },
+            );
+          };
+        };
+      };
+      alert("대출되었습니다");
       
+    };
+  });
+
+
+  $(document).on("click","#logout_btn",function(){//로그아웃하기
+    let parent = document.getElementById("infs");//div의 정보 가져옴
+    let rm_btn = document.getElementById("logout_btn");//로그아웃 버튼의 정보 가져옴
+    parent.removeChild(rm_btn);//로그아웃 버튼 삭제
+    parent.removeChild(parent.childNodes[2]);
+    let cr_btn = document.createElement("button");//버튼 생성
+    cr_btn.setAttribute("id","login_btn");//버튼의 id를 login_btn으로 설정
+    let text = document.createTextNode("로그인");//텍스트 노드 생성
+    cr_btn.appendChild(text);//두 노드를 붙임
+    let inf = document.getElementById("Loan_Inf");//대출정보 링크의 정보를 가져옴.
+    parent.insertBefore(cr_btn,inf);//대출정보 링크의 앞에 로그인 버튼을 위치함
+    alert("로그아웃이 완료되었습니다.");
   });
 });
