@@ -4,7 +4,6 @@
 
 #Login_Modal{
   background-color: skyblue;
-  margin: 1px solid black;
   width: 300px;
   padding: 20px;
   visibility: hidden;
