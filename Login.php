@@ -14,5 +14,6 @@ if($_POST["id_check"] != null && $_POST["pwd_check"] != null){//로그인
       echo 1;//1리턴
     };
   };
+  fclose($f);
 };
 ?>

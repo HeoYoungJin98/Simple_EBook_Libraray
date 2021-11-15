@@ -26,11 +26,11 @@ if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg
 }
 if (file_exists($target_file)) {//파일이 이미 있는지 확인
   echo "Sorry, file already exists.";
-  $uploadOk = 0;
+  $uploadOk = 3;
 }
 
 
-if ($uploadOk == 0) {//이미지 중복 검사 결과가 0일 경우
+if ($uploadOk == 3) {//이미지 중복 검사 결과가 0일 경우
   echo "Sorry, your file was not uploaded.";//이미지가 이미 업로드됨을 알림
 }else if($Name_Validation == 0){//도서명 중복 검사 결과가 0일 경우
   echo "Sorry your Book Name is not unique";//도서명이 중복됨을 알림

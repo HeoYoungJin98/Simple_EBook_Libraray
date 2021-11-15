@@ -56,7 +56,7 @@ $(document).ready(function(){
       $("#Login_Modal").css("display","none");//로그인 모달 닫기
     }else{//입력창이 비어있지도 않고, 입력 양식에도 맞을 경우
       $.post(
-        "SingIn.php",//search_Book.php로 정보 전달
+        "SignIn.php",//SignIn.php로 정보 전달
         {
           id: $("#ID_Input").val(),//ID값 전달
           pwd: $("#PWD_Input").val(),//PWD값 전달
@@ -68,39 +68,49 @@ $(document).ready(function(){
     };
   });
 
+  let Search_count = 0;
   $("#Insert_btn").on("click",function(){//검색을 클릭했을 때
     let table = document.getElementById("Book_List_Table");//테이블 정보 가져옴.
-    var create_tr = document.createElement("tr");//tr 생성
-    create_tr.setAttribute("id","head");
-    table.appendChild(create_tr);//tr생성
-    var create_td = document.createElement("td");//td 생성
-    create_tr.appendChild(create_td);//td생성
-    var Text = document.createTextNode("선택");
-    create_td.appendChild(Text);
-    create_td = document.createElement("td");
-    create_tr.appendChild(create_td);//td생성
-    Text = document.createTextNode("제목");
-    create_td.appendChild(Text);
-    create_td = document.createElement("td");
-    create_tr.appendChild(create_td);//td생성
-    Text = document.createTextNode("저자");
-    create_td.appendChild(Text);
-    create_td = document.createElement("td");
-    create_tr.appendChild(create_td);//td생성
-    Text = document.createTextNode("출판년월일");
-    create_td.appendChild(Text);
-    create_td = document.createElement("td");
-    create_tr.appendChild(create_td);//td생성
-    Text = document.createTextNode("출판사");
-    create_td.appendChild(Text);
-    create_td = document.createElement("td");
-    create_tr.appendChild(create_td);//td생성
-    Text = document.createTextNode("화일");
-    create_td.appendChild(Text);
-    create_td = document.createElement("td");
-    create_tr.appendChild(create_td);//td생성
-    Text = document.createTextNode("대출여부");
-    create_td.appendChild(Text);
+    if(Search_count == 0){
+      var create_tr = document.createElement("tr");//tr 생성
+      create_tr.setAttribute("id","head");
+      table.appendChild(create_tr);//tr생성
+      var create_td = document.createElement("td");//td 생성
+      create_tr.appendChild(create_td);//td생성
+      var Text = document.createTextNode("선택");
+      create_td.appendChild(Text);
+      create_td = document.createElement("td");
+      create_tr.appendChild(create_td);//td생성
+      Text = document.createTextNode("제목");
+      create_td.appendChild(Text);
+      create_td = document.createElement("td");
+      create_tr.appendChild(create_td);//td생성
+      Text = document.createTextNode("저자");
+      create_td.appendChild(Text);
+      create_td = document.createElement("td");
+      create_tr.appendChild(create_td);//td생성
+      Text = document.createTextNode("출판년월일");
+      create_td.appendChild(Text);
+      create_td = document.createElement("td");
+      create_tr.appendChild(create_td);//td생성
+      Text = document.createTextNode("출판사");
+      create_td.appendChild(Text);
+      create_td = document.createElement("td");
+      create_tr.appendChild(create_td);//td생성
+      Text = document.createTextNode("화일");
+      create_td.appendChild(Text);
+      create_td = document.createElement("td");
+      create_tr.appendChild(create_td);//td생성
+      Text = document.createTextNode("대출여부");
+      create_td.appendChild(Text);
+
+      let Reserve = document.getElementById("Reserve");//div 정보 가져오기
+      let Reserve_btn = document.createElement("button");//버튼 생성하기
+      Reserve_btn.setAttribute("id","Reserve_btn");//버튼의 ID 설정하기
+      let Reserve_Text = document.createTextNode("대출하기");//텍스트 노드 생성하기
+      Reserve_btn.appendChild(Reserve_Text);//버튼과 텍스트 노드 붙이기
+      Reserve.appendChild(Reserve_btn);//버튼 출력하기
+    };
 
     $.post(
       "BookList.php",//php로 정보 전달
@@ -111,6 +121,7 @@ $(document).ready(function(){
         if(data == 0){
 
         }else{
+          Search_count += 1;
           let Arr = JSON.parse(data);
           create_tr = document.createElement("tr");//tr 생성
           create_td = document.createElement("td");//td 생성
@@ -141,12 +152,6 @@ $(document).ready(function(){
         };
       },
     );
-    let Reserve = document.getElementById("Reserve");//div 정보 가져오기
-    let Reserve_btn = document.createElement("button");//버튼 생성하기
-    Reserve_btn.setAttribute("id","Reserve_btn");//버튼의 ID 설정하기
-    let Reserve_Text = document.createTextNode("대출하기");//텍스트 노드 생성하기
-    Reserve_btn.appendChild(Reserve_Text);//버튼과 텍스트 노드 붙이기
-    Reserve.appendChild(Reserve_btn);//버튼 출력하기
   });
 
   $(document).on("click",".Show_file",function(){//미리보기 버튼을 클릭했을 경우
@@ -171,28 +176,45 @@ $(document).ready(function(){
           }else{
             let day = new Date();//현재 시간을 변수에 저장
             let today = day.getFullYear() + "-" + day.getMonth() + "-" + day.getDate();//연월일만 문자열로 저장
+            let BookName = td[(row*6)+1].innerHTML;//책이름
+            let parent = document.getElementById("infs");//div의 정보 가져옴
+            let User = parent.childNodes[2].nodeValue;
+
             $.post(
               "Reserve_Book.php",//Reserve_Book.php로 정보 전달
               {
-                BookName: td[(row*6)+1].innerHTML,//책이름
+                BookName: BookName,//책이름
                 ReserveDate: today,//오늘 연월일
-                UserName: document.getElementById("infs").childNodes[2];//로그인한 아이디전달
+                UserName: User,//로그인한 아이디전달
               },
             );
+
             $.post(
-              "Fix_Book.php",//Fix_Book.php로 정보 전달
+              "Fix_to_rented.php",//Fix_to_rented.php로 정보 전달
               {
-                BookName: td[(row*6)+1].innerHTML,//책 이름 전달
+                BookName: BookName,//책 이름 전달
               },
             );
           };
         };
       };
       alert("대출되었습니다");
-      
+      for(row = 0; row<check.length; row++){//체크박스의 수만큼 검사
+        if(check[row].checked){//체크박스가 체크 된 경우에만
+          td[(row*6)+6].innerHTML = "rented";//상태를 rented로 변경
+        };
+      };
     };
   });
 
+  $("#Loan_Inf").on("click",function(){//대출정보 버튼을 클릭했을 경우
+    let is_logout = $("#logout_btn").text();//로그아웃 버튼이 있는지 확인
+    if(is_logout == ""){//없을 경우 로그인이 안 된 것이므로
+      alert("로그인 후, 대출정보 보기가 가능합니다.");//경고창 출력
+    }else{
+      
+    }
+  });
 
   $(document).on("click","#logout_btn",function(){//로그아웃하기
     let parent = document.getElementById("infs");//div의 정보 가져옴

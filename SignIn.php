@@ -1,4 +1,5 @@
 <?php
+echo "hi";
 if($_POST["id"] != null && $_POST["pwd"] != null){//회원가입
   $ID = $_POST["id"];//넘어온 id값 저장
   $PWD = $_POST["pwd"];//넘어온 pwd값 저장
