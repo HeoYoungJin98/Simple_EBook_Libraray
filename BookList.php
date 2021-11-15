@@ -11,8 +11,9 @@ while(!feof($f)){//파일의 끝까지 반복
     array_push($Arr,$Readed_line["bookName"],$Readed_line["authors"],$Readed_line["publishDate"],$Readed_line["publisher"],$Readed_line["fileName"],$Readed_line["rental"]);
   };
 };
+
 if(count($Arr)>0){
-    echo json_encode($Arr);
+  echo json_encode($Arr);
 }else{
   echo 0;
 }

@@ -126,6 +126,7 @@ $(document).ready(function(){
           create_tr = document.createElement("tr");//tr 생성
           create_td = document.createElement("td");//td 생성
           for(let r = 0; r<(Arr.length/6); r++){//table 생성
+            create_tr = document.createElement("tr");//tr 생성
             table.appendChild(create_tr);//tr을 개수에 맞게 생성
             for(let d=0; d<7; d++){//td를 생성하는 반복문
               create_td = document.createElement("td");
@@ -138,13 +139,13 @@ $(document).ready(function(){
                 create_td.appendChild(checkbox);
               }else if(d==5){//5번째칸(미리보기)
                 let link = document.createElement("button");
-                link.setAttribute("value",Arr[(d-1)]);
+                link.setAttribute("value",Arr[(r*6+4)]);
                 link.setAttribute("class","Show_file");
                 let link_Text = document.createTextNode("미리보기");
                 link.appendChild(link_Text);
                 create_td.appendChild(link);
               }else{//두 번째부터
-                let result = document.createTextNode(Arr[(d-1)]);
+                let result = document.createTextNode(Arr[r*6+(d-1)]);
                 create_td.appendChild(result);//배열의 값 집어넣음
               };
             };
@@ -170,13 +171,13 @@ $(document).ready(function(){
       let td = document.getElementsByClassName("Book_info");//각 테이블들의 정보를 가져옴
       for(row; row<check.length; row++){//체크박스의 수만큼 검사
         if(check[row].checked){//체크박스가 체크 된 경우에만
-          let is_keep = td[(row*6)+6].innerHTML;//대출 여부 저장
+          let is_keep = td[(row*7)+6].innerHTML;//대출 여부 저장
           if(is_keep == "rented"){//해당 도서가 대출중인 경우
             alert("대출 가능한 도서만 선택해주세요.");//경고창 출력
           }else{
             let day = new Date();//현재 시간을 변수에 저장
             let today = day.getFullYear() + "-" + day.getMonth() + "-" + day.getDate();//연월일만 문자열로 저장
-            let BookName = td[(row*6)+1].innerHTML;//책이름
+            let BookName = td[(row*7)+1].innerHTML;//책이름
             let parent = document.getElementById("infs");//div의 정보 가져옴
             let User = parent.childNodes[2].nodeValue;
 
@@ -201,7 +202,7 @@ $(document).ready(function(){
       alert("대출되었습니다");
       for(row = 0; row<check.length; row++){//체크박스의 수만큼 검사
         if(check[row].checked){//체크박스가 체크 된 경우에만
-          td[(row*6)+6].innerHTML = "rented";//상태를 rented로 변경
+          td[(row*7)+6].innerHTML = "rented";//상태를 rented로 변경
         };
       };
     };
@@ -211,8 +212,9 @@ $(document).ready(function(){
     let is_logout = $("#logout_btn").text();//로그아웃 버튼이 있는지 확인
     if(is_logout == ""){//없을 경우 로그인이 안 된 것이므로
       alert("로그인 후, 대출정보 보기가 가능합니다.");//경고창 출력
+      return false;//링크 이동 중단
     }else{
-      
+      window.open("Loan_Inf.html","미리보기","resizable=yes, width=700px, height=500px");
     }
   });
 

@@ -1,0 +1,19 @@
+#Infs{
+  text-align: right;
+}
+
+table{
+  border: 1px solid black;
+  border-collapse: collapse;
+  width: 100%;
+  text-align: center;
+}
+
+td{
+  border: 1px solid black;
+}
+
+#head{
+  background-color: mediumpurple;
+  color: white;
+}
