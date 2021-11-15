@@ -1,3 +1,4 @@
 {"bookName":"Learning PHP","authors":"Kim hee","publishDate":"2021-11-15","publisher":"CNU","fileName":"Learning PHP.jpg","rental":"keep"}
 {"bookName":"Learning JS","authors":"Young su","publishDate":"2021-03-10","publisher":"CNU","fileName":"Learning JS.jpg","rental":"keep"}
-{"bookName":"SQL Guide","authors":"Nam soon","publishDate":"2020-11-10","publisher":"CNU","fileName":"SQL guide.jpg","rental":"rented"}
+{"bookName":"SQL Guide","authors":"Nam soon","publishDate":"2020-11-10","publisher":"CNU","fileName":"SQL guide.jpg","rental":"keep"}
+{"bookName":"Learning SQL","authors":"YoungJin","publishDate":"2021-03-02","publisher":"CNU","fileName":"Learning SQL.jpg","rental":"rented"}

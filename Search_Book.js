@@ -162,6 +162,7 @@ $(document).ready(function(){
   });
 
   $(document).on("click","#Reserve_btn",function(){//대출하기 버튼을 클릭했을 경우
+    let can = 1;
     let is_logout = $("#logout_btn").text();//로그아웃 버튼이 있는지 확인
     if(is_logout == ""){//없을 경우 로그인이 안 된 것이므로
       alert("로그인 후 대출 가능합니다.");//경고창 출력
@@ -174,6 +175,8 @@ $(document).ready(function(){
           let is_keep = td[(row*7)+6].innerHTML;//대출 여부 저장
           if(is_keep == "rented"){//해당 도서가 대출중인 경우
             alert("대출 가능한 도서만 선택해주세요.");//경고창 출력
+            can = 0;
+            break;
           }else{
             let day = new Date();//현재 시간을 변수에 저장
             let today = day.getFullYear() + "-" + day.getMonth() + "-" + day.getDate();//연월일만 문자열로 저장
@@ -199,11 +202,13 @@ $(document).ready(function(){
           };
         };
       };
-      alert("대출되었습니다");
-      for(row = 0; row<check.length; row++){//체크박스의 수만큼 검사
-        if(check[row].checked){//체크박스가 체크 된 경우에만
-          td[(row*7)+6].innerHTML = "rented";//상태를 rented로 변경
-        };
+      if(can == 1){
+          alert("대출되었습니다");
+          for(row = 0; row<check.length; row++){//체크박스의 수만큼 검사
+            if(check[row].checked){//체크박스가 체크 된 경우에만
+              td[(row*7)+6].innerHTML = "rented";//상태를 rented로 변경
+            };
+          };
       };
     };
   });
